@@ -1,0 +1,35 @@
+server.port: 8081
+spring.application.name: gateway-service
+eureka:
+  client:
+    service-url:
+      defaultZone=http://localhost:8761/eureka:
+
+spring:
+  cloud:
+    gateway:
+      mvc:
+        routes:
+          - id: author-service
+            uri: lb://author-service
+            predicates:
+              - Path=/api/v1/author/**
+              - Before=2024-01-17T02:00:00.000-05:00
+            filters:
+              - StripPrefix=3
+          - id: book-service
+            uri: lb://book-service
+            predicates:
+              - Path=/api/v1/book/**
+              - After=2024-01-16T02:00:00.000-05:00
+            filters:
+              - StripPrefix=3
+              - AddResponseHeader=x-custom-header, custom-value
+          - id: bookstore-service
+            uri: lb://bookstore-service
+            predicates:
+              - Path=/api/v1/book-store/**
+              - Cookie=myCookie, valorCookie
+              - Method=GET, POST, PUT, DELETE
+            filters:
+              - StripPrefix=3

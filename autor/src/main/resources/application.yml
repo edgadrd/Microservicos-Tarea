@@ -1,0 +1,9 @@
+spring.application.name: author-service
+
+spring:
+  profiles:
+    active: dev
+  config:
+    import: configserver:http://localhost:8888
+#spring.cloud.config.profile: <<profile>
+#spring.config.import: configserver:http://localhost:8888

@@ -1,0 +1,7 @@
+spring.application.name: book-service
+
+spring:
+  profiles:
+    active: dev,feingnclient
+  config:
+    import: configserver:http://localhost:8888
